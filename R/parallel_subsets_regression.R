@@ -1,5 +1,5 @@
 require(parallel)
-ncores <- detectCores()
+max.cores <- detectCores()
 
 # convert matrix into list of vectors by column
 col_list <- function(M){
@@ -29,56 +29,36 @@ do_1subset <- function(this_subset, get_criterion, XX, Xy, X, y){
   return(list(subset = this_subset, criterion = criterion))
 }
 
-run_serial <- function(X, y, k_max){
+do_all_subsets <- function(X, y, k_max, ncores,
+                           get_criterion){
   X <- cbind(rep(1, nrow(X)), X) # add constant
   XX <- crossprod(X)
   Xy <- crossprod(X, y)
   all_subsets <- get_subsets(ncol(X) - 1, k_max)
-  out <- lapply(all_subsets, function(sub) 
-                do_1subset(sub, get_BIC, XX, Xy, X, y)) 
-  return(out)
+  f <- function(sub){
+    do_1subset(sub, get_criterion, XX, Xy, X, y)
+  }
+  if(ncores == 1){
+    return(lapply(all_subsets, f))
+  }else{
+    return(mclapply(all_subsets, f, mc.cores = ncores))
+  }
 }
 
-run_parallel <- function(X, y, k_max){
-  X <- cbind(rep(1, nrow(X)), X) # add constant
-  XX <- crossprod(X)
-  Xy <- crossprod(X, y)
-  all_subsets <- get_subsets(ncol(X) - 1, k_max)  
-  out <- mclapply(all_subsets, function(sub) 
-                  do_1subset(sub, get_BIC, XX, Xy, X, y),
-                  mc.cores = ncores) 
-  return(out)
-}
-
-# getting essentially no speedup unless the task is large then parallel is about twice as fast
-# try to improve this with clever chunking? 
-# cut down on function calls?
-# Rcpp?
-
-test_data <- function(){
-  n <- 150 
-  p <- 150
+sim_data <- function(n, p, k){
   b0 <- 0.5
-  b <- c(rep(1, 3), rep(0, p - 3))
+  b <- c(rep(1, k), rep(0, p - k))
   X <- matrix(rnorm(n * p), n, p)
   y <- b0 + X %*% b + rnorm(n)
   return(list(X = X, y = y))
 }
 
-test_serial <- function(){
-  data <- test_data()
+testBIC <- function(ncores, n = 100, p = 100, k = 3){
+  data <- sim_data(n, p, k)
   X <- data$X
   y <- data$y
-  return(run_serial(X, y, 3))
+  return(do_all_subsets(X, y, k, ncores, get_BIC))
 }
-
-test_parallel <- function(){
-  data <- test_data()
-  X <- data$X
-  y <- data$y
-  return(run_parallel(X, y, 3))
-}
-  
 
 #criterion_values <- sapply(test_results, function(x) x$criterion)
 #top10 <- order(criterion_values)[1:10]
