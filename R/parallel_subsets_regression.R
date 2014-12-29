@@ -60,6 +60,34 @@ testBIC <- function(ncores, n = 100, p = 100, k = 3){
   return(do_all_subsets(X, y, k, ncores, get_BIC))
 }
 
+# Alternative version: fewer function calls
+do_1BIC <- function(this_subset, XX, Xy, X, y){
+  sub <- c(1, this_subset + 1) # account for constant 
+  XXsub <-  XX[sub, sub]
+  Xysub <- Xy[sub]
+  Xsub <- X[, sub]   
+  b <- solve(XXsub, Xysub)
+  n <- length(y)
+  k <- ncol(Xsub)
+  s_squared <- crossprod(y - Xsub %*% b) / n 
+  BICvalue <- log(s_squared) + k * log(n) / n
+  return(list(subset = this_subset, criterion = BICvalue))
+}
+
+testBIC2 <- function(ncores, n = 100, p = 100, k = 3){
+  data <- sim_data(n, p, k)
+  X <- data$X
+  y <- data$y
+  X <- cbind(rep(1, nrow(X)), X) # add constant
+  XX <- crossprod(X)
+  Xy <- crossprod(X, y)
+  all_subsets <- get_subsets(ncol(X) - 1, k)
+  f <- function(sub){
+    do_1BIC(sub, XX, Xy, X, y)
+  }
+  return(mclapply(all_subsets, f, mc.cores = ncores))
+}  
+
 #criterion_values <- sapply(test_results, function(x) x$criterion)
 #top10 <- order(criterion_values)[1:10]
 #lapply(test_results[top10], function(x) x$subset)
