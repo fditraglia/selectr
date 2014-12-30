@@ -24,6 +24,16 @@ Nevertheless, LASSO-type approaches suffer from several shortcomings.
 First, the penalty term generally involves one or more tuning parameters constant terms which must be selected by the user.
 Theory can't tell us which to use. Model selection consistency tells us the rate at which
 
+Problems when there are highly correlated predictors.
+Motivate Bayesian subsets with regularzation.
+Conditional on the data, LASSO penalty amounts to choosing number of regressors with nonzero coeffs.
+If we restrict best subsets to only look at models at most 5 when there are 100 regressors, we have just under 80 million models.
+This is a lot, but it's within the ability of a desktop computer.
+Give a rough estimate of how long this would take.
+Embarassingly parallel, so farm it out to a cluster.
+True the problem doesn't scale, but can be solved for problems of realistic size.
+Question of which priors are best for this kind of thing.
+Develop open-source software using R, C++ and StarCluster so that anyone can easily use our methods on their problem via AWS without specialist knowledge.
 
 combined with regularization this yields model selection consistency
 Bayesian approach also gives natural framework for inference post-selection
