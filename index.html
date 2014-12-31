@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Selectr by fditraglia</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Selectr</h1>
+        <p>High-dimensional Sparse Bayesian variable selection</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/fditraglia/selectr" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/fditraglia/selectr/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/fditraglia/selectr/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h2>
+<a id="high-dimensional-sparse-bayesian-variable-selection" class="anchor" href="#high-dimensional-sparse-bayesian-variable-selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>High-Dimensional Sparse Bayesian Variable Selection</h2>
+
+<p><strong>Principal Investigators</strong>: <a href="http://apps.olin.wustl.edu/faculty/chib/">Siddhartha Chib</a>, <a href="http://www.ditraglia.com">Francis J. DiTraglia</a></p>
+
+<p>Variable selection, also known as feature selection, is an important problem that spans a wide range of disciplines including Economics, Machine Learning and Genomics.
+Even in its simplest form, choosing regressors for a linear model, variable selection presents two serious challenges.
+First, the problem is known to be computationally hard.
+Searching over all subsets of 100 regressors, for example, requires fitting 1000 times as many models as there are atoms in the human body.
+Second, variable selection is subject to the danger of overfitting.
+The in-sample fit of a model is <em>necessarily</em> no worse than its out-of-sample fit.
+Particularly when searching over a large number of models, there is a substantial risk that we may end up choosing regressors that merely align with the idiosyncratic noise in our sample rather than representing a genuine effect.
+This problem is particularly acute in fields such as Economics where validation datasets can be very hard to come by.</p>
+
+<p>A wide range of proposals for addressing the problem of variable selection have appeared in the statistics, econometrics, and machine learning literatures.
+Generalizations of the least absolute shrinkage and selection operator (LASSO) of Tibshirani (1996) have been particularly influential in recent years as they avoid explicitly searching over subsets of regressors, dramatically reducing the computational cost, and produce interpretable solutions in which only a few regressors have nonzero coefficients.
+The LASSO and related procedures rely on two key ingredients.
+First is the assumption of sparsity.
+Although we have many candidate regressors, we assume that only a very small number of them are truly relevant: the rest have coefficients that are exactly equal to zero.
+Second is regularization.
+To reduce the risk of overfitting, LASSO and it generalizations add a penalty to the usual least-squares criterion function.
+Under appropriate conditions, sparsity combined with an appropriate choice of the LASSO penalty lead to model selection consistency: in the limit as we obtain more and more data, the probability that we select the "true" model approaches one.</p>
+
+<p>Nevertheless, LASSO-type approaches suffer from several shortcomings.
+First, the penalty term generally involves one or more tuning parameters which must be selected by the user.
+While asymptotic theory allows us to determine the <em>rate</em> at which these tuning parameters must change as a function of sample size to obtain consistent model selection, it is silent on the question of the appropriate constant of proportionality.
+In practice, however, different constants lead to very different models as the choice of tuning parameter determines the degree of regularization. 
+Second, even assuming that the assumption of sparsity is justified, the LASSO and related approaches can become quite fragile when regressors are highly correlated, as is often the case in Economics.</p>
+
+<p>In fact, nearly all of the proposals in the variable selection literature can be interpreted as Bayesian estimators under alternative priors.
+LASSO, for example, is nothing more than a maximum a posteriori (MAP) Bayesian estimator with independent Laplace priors on the regression coefficients.
+The choice of tuning parameter corresponds to a choice of how diffuse to make these priors, representing one's beliefs about the likely size of effects and the degree of sparsity.
+Once the problem is viewed from an explicitly Bayesian perspective, however, the natural object to use for model selection is not a sparsity-inducing prior on the regression coefficients, but the marginal likelihood, a principled information-theoretic measure of how strongly the data support a given model.
+It is typically argued that approaches based on the marginal likelihood are impractical because they require enumerating the various models under consideration: typically a huge set.
+What this argument ignores, however, is that approaches such as the LASSO <em>effectively</em> place an upper bound on the maximum model size under consideration through their choice of penalty term.
+If a Bayesian were willing to make an equivalent sparsity assumption, say by considering models with at most 5 regressors out of a set of 100, the size of the model space would be dramatically smaller: just under 80 million in this particular example.
+Given the speed with which the marginal likelihood can be computed (e.g. Chib 1995) a calculation of this magnitude, while large, is feasible on even a reasonably fast desktop computer.
+More to the point, variable selection is an <em>embarrassingly parallel</em> problem and in this era of convenient on-demand computation from services such as Amazon's Elastic Compute Cloud (EC2), Bayesian variable selection by explicit enumeration is a viable alternative for problems of realistic scale provided one is willing to make the same kind of sparsity assumption that appears, for example, in LASSO estimation.
+Indeed, because it considers strictly more information than methods such as the LASSO, a properly tuned enumeratation procedure should yield far better results while still producing interpretable solutions and avoiding the problem of overfitting.
+Moreover, by relying on the marginal likelihood for model selection, enumeration avoids the problem of arbitrary tuning parameters while <em>still</em> obtaining model selection consistency.</p>
+
+<p>The goals of this project are twofold.
+First, we aim to determine which priors are best suited to Bayesian variable selection via marginal likelihood comparisons in a sparse setting.
+While some work on this problem has appeared in the literature, we are unaware of any studies that consider problems of a scale comparable to those in which LASSO and related procedures are typically brought to bear.
+Second, we plan to develop open-source software using R, C++ and StarCluster to make it easy for researchers to spin up a cluster on EC2 and implement our enumeration procedures.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/fditraglia">fditraglia</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
