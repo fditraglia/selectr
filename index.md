@@ -26,7 +26,11 @@ While asymptotic theory allows us to determine the *rate* at which these tuning 
 In practice, however, different constants lead to very different models as the choice of tuning parameter determines the degree of regularization. 
 Second, even assuming that the assumption of sparsity is justified, the LASSO and related approaches can become quite fragile when regressors are highly correlated, as is often the case in Economics.
 
-In fact, 
+In fact, nearly all of the proposals in the variable selection literature can be interpreted as Bayesian estimators under alternative priors.
+LASSO, for example, is nothing more than a maximum a posteriori (MAP) Bayesian estimator under independent Laplace priors.
+The choice of tuning parameter corresponds to a choice how how diffuse to make the prior, representing one's beliefs about the likely size of effects and the degree of sparsity.
+Once the problem is viewed from a Bayesian perspective, however, 
+
 Problems when there are highly correlated predictors.
 Motivate Bayesian subsets with regularzation.
 Conditional on the data, LASSO penalty amounts to choosing number of regressors with nonzero coeffs.
