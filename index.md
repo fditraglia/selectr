@@ -22,8 +22,11 @@ Under appropriate conditions, sparsity combined with an appropriate choice of th
 
 Nevertheless, LASSO-type approaches suffer from several shortcomings.
 First, the penalty term generally involves one or more tuning parameters constant terms which must be selected by the user.
-Theory can't tell us which to use. Model selection consistency tells us the rate at which
+While asymptotic theory allows us to determine the *rate* at which these tuning parameters must change as a function of sample size to obtain consistent model selection, it is silent on the question of the appropriate constant of proportionality.
+In practice, however, different constants lead to very different models as the choice of tuning parameter determines the degree of regularization. 
+Second, even assuming that the assumption of sparsity is justified, the LASSO and related approaches can become quite fragile when regressors are highly correlated, as is often the case in Economics.
 
+In fact, 
 Problems when there are highly correlated predictors.
 Motivate Bayesian subsets with regularzation.
 Conditional on the data, LASSO penalty amounts to choosing number of regressors with nonzero coeffs.
@@ -37,4 +40,8 @@ Develop open-source software using R, C++ and StarCluster so that anyone can eas
 
 combined with regularization this yields model selection consistency
 Bayesian approach also gives natural framework for inference post-selection
-
+Bayesian best subsets use marginal likelihoods to find extend to which data support model
+Regularization via a prior
+Fast implementation via Gibbs sampling
+Which priors are best for the sparse setting
+Start with linear regression
