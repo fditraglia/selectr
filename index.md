@@ -35,7 +35,7 @@ What this argument ignores, however, is that approaches such as the LASSO *effec
 If a Bayesian were willing to make an equivalent sparsity assumption, say by considering models with at most 5 regressors out of a set of 100, the size of the model space would be dramatically smaller: just under 80 million in this particular example.
 Given the speed with which the marginal likelihood can be computed (e.g. Chib 1995) a calculation of this magnitude, while large, is feasible on even a reasonably fast desktop computer.
 More to the point, variable selection is an *embarrassingly parallel* problem and in this era of convenient on-demand computation from services such as Amazon's Elastic Compute Cloud (EC2), Bayesian variable selection by explicit enumeration is a viable alternative for problems of realistic scale provided one is willing to make the same kind of sparsity assumption that appears, for example, LASSO estimation.
-Indeed, because it considers strictly more information than methods such as the LASSO, a properly tuned enumeratation procedure should yield far better results.
+Indeed, because it considers strictly more information than methods such as the LASSO, a properly tuned enumeratation procedure should yield far better results while still producing interpretable solutions and avoiding the problem of overfitting.
 
 The goals of this project are twofold.
 First, we aim to determine which priors are best suited to Bayesian variable selection via marginal likelihood comparisons in a sparse setting.
