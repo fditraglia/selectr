@@ -28,7 +28,7 @@ Second, even assuming that the assumption of sparsity is justified, the LASSO an
 
 In fact, nearly all of the proposals in the variable selection literature can be interpreted as Bayesian estimators under alternative priors.
 LASSO, for example, is nothing more than a maximum a posteriori (MAP) Bayesian estimator with independent Laplace priors on the regression coefficients.
-The choice of tuning parameter corresponds to a choice how how diffuse to make theses priors, representing one's beliefs about the likely size of effects and the degree of sparsity.
+The choice of tuning parameter corresponds to a choice of how diffuse to make these priors, representing one's beliefs about the likely size of effects and the degree of sparsity.
 Once the problem is viewed from an explicitly Bayesian perspective, however, the natural object to use for model selection is not a sparsity-inducing prior on the regression coefficients, but the marginal likelihood, a principled information-theoretic measure of how strongly the data support a given model.
 It is typically argued that approaches based on the marginal likelihood are impractical because they require enumerating the various models under consideration: typically a huge set.
 What this argument ignores, however, is that approaches such as the LASSO *effectively* place an upper bound on the maximum model size under consideration through their choice of penalty term.
@@ -41,4 +41,4 @@ Moreover, by relying on the marginal likelihood for model selection, enumeration
 The goals of this project are twofold.
 First, we aim to determine which priors are best suited to Bayesian variable selection via marginal likelihood comparisons in a sparse setting.
 While some work on this problem has appeared in the literature, we are unaware of any studies that consider problems of a scale comparable to those in which LASSO and related procedures are typically brought to bear.
-Second, we plan to develop open-source software using R, C++ and StarCluster to make it easy for researchers to use EC2 to implement our methods.
+Second, we plan to develop open-source software using R, C++ and StarCluster to make it easy for researchers to spin up a cluster on EC2 and implement our enumeration procedures.
