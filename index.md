@@ -1,4 +1,4 @@
-High-Dimensional Sparse Bayesian Variable Selection
+High-Dimensional, Parallel, Sparse Bayesian Variable Selection
 ---------------------------------------------------
 **Principal Investigators**: [Siddhartha Chib](http://apps.olin.wustl.edu/faculty/chib/), [Francis J. DiTraglia](http://www.ditraglia.com)
 
