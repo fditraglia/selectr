@@ -27,25 +27,17 @@ In practice, however, different constants lead to very different models as the c
 Second, even assuming that the assumption of sparsity is justified, the LASSO and related approaches can become quite fragile when regressors are highly correlated, as is often the case in Economics.
 
 In fact, nearly all of the proposals in the variable selection literature can be interpreted as Bayesian estimators under alternative priors.
-LASSO, for example, is nothing more than a maximum a posteriori (MAP) Bayesian estimator under independent Laplace priors.
-The choice of tuning parameter corresponds to a choice how how diffuse to make the prior, representing one's beliefs about the likely size of effects and the degree of sparsity.
-Once the problem is viewed from a Bayesian perspective, however, 
+LASSO, for example, is nothing more than a maximum a posteriori (MAP) Bayesian estimator with independent Laplace priors on the regression coefficients.
+The choice of tuning parameter corresponds to a choice how how diffuse to make theses priors, representing one's beliefs about the likely size of effects and the degree of sparsity.
+Once the problem is viewed from an explicitly Bayesian perspective, however, the natural object to use for model selection is not a sparsity-inducing prior on the regression coefficients, but the marginal likelihood, a principled information-theoretic measure of how strongly the data support a given model.
+It is typically argued that approaches based on the marginal likelihood are impractical because they require enumerating the various models under consideration: typically a huge set.
+What this argument ignores, however, is that approaches such as the LASSO *effectively* place an upper bound on the maximum model size under consideration through their choice of penalty procedure.
+If a Bayesian were willing to make an equivalent sparsity assumption, say by considering models with at most 5 regressors out of a set of 100, the size of the model space would be dramatically smaller: just under 80 million in this particular example.
+Given the speed with which the marginal likelihood can be computed (e.g. Chib 1995) a calculation of this magnitude, while large, is feasible on even a reasonably fast desktop computer.
+More to the point, variable selection is an *embarrassingly parallel* problem and in this era of convenient on-demand computation from services such as Amazon's Elastic Compute Cloud (EC2), Bayesian variable selection by explicit enumeration is a viable alternative for problems of realistic scale provided one is willing to make the same kind of sparsity assumption that appears, for example, LASSO estimation.
+Indeed, because it considers strictly more information than methods such as the LASSO, a properly tuned enumeratation procedure should yield far better results.
 
-Problems when there are highly correlated predictors.
-Motivate Bayesian subsets with regularzation.
-Conditional on the data, LASSO penalty amounts to choosing number of regressors with nonzero coeffs.
-If we restrict best subsets to only look at models at most 5 when there are 100 regressors, we have just under 80 million models.
-This is a lot, but it's within the ability of a desktop computer.
-Give a rough estimate of how long this would take.
-Embarassingly parallel, so farm it out to a cluster.
-True the problem doesn't scale, but can be solved for problems of realistic size.
-Question of which priors are best for this kind of thing.
-Develop open-source software using R, C++ and StarCluster so that anyone can easily use our methods on their problem via AWS without specialist knowledge.
-
-combined with regularization this yields model selection consistency
-Bayesian approach also gives natural framework for inference post-selection
-Bayesian best subsets use marginal likelihoods to find extend to which data support model
-Regularization via a prior
-Fast implementation via Gibbs sampling
-Which priors are best for the sparse setting
-Start with linear regression
+The goals of this project are twofold.
+First, we aim to determine which priors are best suited to Bayesian variable selection via marginal likelihood comparisons in a sparse setting.
+While some work on this problem has appeared in the literature, we are unaware of any studies that consider problems of a scale comparable to those in which LASSO and related procedures are typically brought to bear.
+Second, we plan to develop open-source software using R, C++ and StarCluster to make it easy for researchers to use EC2 to implement our methods.
