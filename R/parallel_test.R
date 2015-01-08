@@ -32,3 +32,8 @@ simCpp <- function(cores, tasks){
   b_seq <- seq(0.9, 1.1, length.out = tasks)  
   return(mclapply(b_seq, reg_MSE_cpp, mc.cores = cores))
 }
+
+snooze <- function(cores, tasks){
+  mclapply(1:tasks, function(i){Sys.sleep(1); i},
+           mc.cores = cores)
+}
