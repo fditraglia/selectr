@@ -1,28 +1,24 @@
-mycombn <- function (x, m){
-  x <- seq_len(x)
-  n <- length(x)
-  e <- 0
-  h <- m
-  a <- seq_len(m)
-  r <- x[a]
-  out <- matrix(r, length(r), ncol = choose(n, m))
+mycombn <- function (n, k){
+  m <- 0
+  h <- k
+  a <- seq_len(k)
+  out <- matrix(a, k, ncol = choose(n, k))
   i <- 2L
-  nmmp1 <- n - m + 1L
-  while (a[1L] != nmmp1) {
-    if (e < n - h) {
+  a1_final <- n - k + 1L
+  while (a[1L] != a1_final) {
+    if (m < n - h) {
       h <- 1L
-      e <- a[m]
+      m <- a[k]
       j <- 1L
-    }
-    else {
-      e <- a[m - h]
+    } else {
+      m <- a[k - h]
       h <- h + 1L
       j <- 1L:h
     }
-    a[m - h + j] <- e + j
-    r <- x[a]
-    out[, i] <- r
+    a[k - h + j] <- m + j
+    out[, i] <- a
     i <- i + 1L
   }
   return(out)
 }
+
