@@ -1,6 +1,8 @@
-# Compare performance of combn, mycombn, a byte-code
+#Compare performance of combn, mycombn, a byte-code
 # compiled verion of mycombn and an Rcpp version 
-library(microbenchmark, compiler)
+library(microbenchmark)
+library(compiler)
+setwd("~/selectr/R")
 source("combn_stripped.R")
 
 # create byte-code compiled version of mycombn
